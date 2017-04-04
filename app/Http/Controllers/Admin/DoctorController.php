@@ -6,6 +6,7 @@ use App\Doctor;
 use App\Http\Requests\Admin\DoctorRequest;
 use App\Patient;
 use App\PatientRecord;
+use App\Specialist;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -19,8 +20,8 @@ class DoctorController extends Controller
      */
     public function index($part = 30)
     {
-        $doctor = Patient::paginate($part);
-        return view('admin.doctor.index',compact('doctor'));
+        $doctors = Doctor::paginate($part);
+        return view('admin.doctor.index',compact('doctors'));
     }
 
     /**
@@ -30,7 +31,8 @@ class DoctorController extends Controller
      */
     public function create(User $user)
     {
-        return view('admin.doctor.create',compact('user'));
+        $specialists = Specialist::all();
+        return view('admin.doctor.create',compact('user','specialists'));
     }
 
     /**
@@ -55,8 +57,13 @@ class DoctorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Doctor $doctor)
+    public function show($id)
     {
+
+        $doctor = Doctor::find(['id'=>$id])->first();
+        if($doctor == null){
+            return redirect()->route('admin.doctor.create',$id);
+        }
         $records = $doctor->PatientRecord();
         return view('admin.doctor.show',compact('doctor','records'));
     }
@@ -69,7 +76,8 @@ class DoctorController extends Controller
      */
     public function edit(Doctor $doctor)
     {
-        return view('admin.doctor.edit',compact('doctor'));
+        $specialists = Specialist::all();
+        return view('admin.doctor.edit',compact('doctor','specialists'));
     }
 
     /**
@@ -97,6 +105,6 @@ class DoctorController extends Controller
     public function destroy(Doctor $doctor)
     {
         $doctor->delete();
-        return redirect()->route('admin.doctor.index');
+
     }
 }

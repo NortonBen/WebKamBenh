@@ -16,7 +16,13 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Schema::defaultStringLength(191);
-        Form::component('bsText', 'components.form.text', ['name', 'value', 'attributes']);
+        Form::component('fText', 'components.forms.text', ['name', 'label', 'value' => null, 'attributes' => []]);
+        Form::component('fHTML', 'components.forms.html', ['name', 'label', 'value' => null, 'attributes' => []]);
+        Form::component('fEmail', 'components.forms.email', ['name', 'label','value' => null, 'attributes' => []]);
+        Form::component('fPassword', 'components.forms.password', ['name','label', 'value' => null, 'attributes' => []]);
+        Form::component('fDate', 'components.forms.date', ['name','label', 'value' => null, 'attributes' => []]);
+        Form::component('fSex', 'components.forms.sex', ['name', 'value' => null, 'attributes' => []]);
+        Form::component('fSelect', 'components.forms.select', ['name','label', '_datas','_item', 'value' => null, 'attributes' => []]);
     }
 
     /**

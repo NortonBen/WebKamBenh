@@ -13,6 +13,14 @@ class Doctor extends Model
         return $this->hasMany(PatientRecord::class);
     }
 
+    public function Specialist(){
+        return $this->belongsTo(Specialist::class);
+    }
+
+    public function User(){
+        return $this->belongsTo(User::class,'id','id');
+    }
+
     public function PatientRegister(){
         return $this->hasMany(PatientRegister::class);
     }

@@ -28,16 +28,21 @@ class User extends Authenticatable
     ];
 
 
+    public function full_name(){
+        return $this->first_name .' '.$this->last_name;
+    }
+
+
     public function  Doctor(){
         if($this->role == 2){
-            return $this->hasOne(Doctor::class);
+            return $this->hasOne(Doctor::class,'id','id');
         }
         return null;
     }
 
     public function  Patient(){
         if($this->role == 3){
-            return $this->hasOne(Patient::class);
+            return $this->hasOne(Patient::class,'id', 'id');
         }
         return null;
     }

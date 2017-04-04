@@ -81,6 +81,21 @@ class UserController extends Controller
     public function update(UserEditRequest $request, User $user)
     {
         $data  = $request->only(['first_name','last_name', 'email','birthday','sex','address','role_id','phone']);
+        if($user->role_id != $data['id'] ){
+            if($user->role_id == 2){
+                $data = $user->Doctor();
+                if($data != null){
+                    $data->delete();
+                }
+            }
+            if($user->role_id == 3){
+
+               $data =  $user->Patient();
+               if($data != null){
+                   $data->delete();
+               }
+            }
+        }
         if($user->update($data)){
             return redirect()->route('admin.user.index');
         }

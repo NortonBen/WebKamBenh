@@ -19,7 +19,7 @@ class PatientController extends Controller
     public function index($part = 30)
     {
         $patients = Patient::paginate($part);
-        return view('admin.patient.inde',compact('patients'));
+        return view('admin.patient.index',compact('patients'));
     }
 
     /**
@@ -40,7 +40,7 @@ class PatientController extends Controller
      */
     public function store(PatientRequest $request,User $user)
     {
-        $data = $request->only(['hitory']);
+        $data = $request->only(['history']);
         $data['id'] = $user->id;
         if(Patient::create($data)){
             return redirect()->route('admin.patient.index');
@@ -54,8 +54,13 @@ class PatientController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Patient $patient)
+    public function show($id)
     {
+
+        $patient = Patient::find(['id'=>$id])->first();
+        if($patient == null){
+            return redirect()->route('admin.patient.create',$id);
+        }
         $records = $patient->PatientRecord();
         return view('admin.patient.show',compact('patient','records'));
     }

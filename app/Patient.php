@@ -15,4 +15,8 @@ class Patient extends Model
     public function PatientRegister(){
         return $this->hasMany(PatientRegister::class);
     }
+
+    public function User(){
+        return $this->belongsTo(User::class,'id','id');
+    }
 }
