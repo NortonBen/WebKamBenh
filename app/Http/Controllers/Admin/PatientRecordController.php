@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\PatientRecord;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -12,31 +13,13 @@ class PatientRecordController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($part = 30)
     {
-        //
+        $records = PatientRecord::paginate($part);
+        return view('admin.record.index',compact('records'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
 
     /**
      * Display the specified resource.
@@ -44,33 +27,11 @@ class PatientRecordController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(PatientRecord $record)
     {
-        //
+        return view('admin.record.show',compact('record'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
 
     /**
      * Remove the specified resource from storage.
@@ -78,8 +39,9 @@ class PatientRecordController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(PatientRecord $record)
     {
-        //
+        $record->delete();
+        return redirect()->route('admin.records.index');
     }
 }

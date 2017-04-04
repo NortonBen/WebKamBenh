@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Requests\Admin\SpecialistRequest;
+use App\Specialist;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -12,9 +14,10 @@ class SpecialistController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($part = 30)
     {
-        //
+        $specialists = Specialist::paginate($part);
+        return view('admin.specialist.index',compact('specialists'));
     }
 
     /**
@@ -24,7 +27,7 @@ class SpecialistController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.specialist.create');
     }
 
     /**
@@ -33,9 +36,13 @@ class SpecialistController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(SpecialistRequest $request)
     {
-        //
+        $data = $request->only(['name']);
+        if(Specialist::create($data)){
+            return  redirect()->route('admin.specialist.index');
+        }
+        return back();
     }
 
     /**
@@ -44,9 +51,9 @@ class SpecialistController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Specialist $specialist)
     {
-        //
+        return view('admin.specialist.show',compact('specialist'));
     }
 
     /**
@@ -55,9 +62,9 @@ class SpecialistController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Specialist $specialist)
     {
-        //
+        return view('admin.specialist.edit',compact('specialist'));
     }
 
     /**
@@ -67,9 +74,13 @@ class SpecialistController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(SpecialistRequest $request, Specialist $specialist)
     {
-        //
+        $data = $request->only(['name']);
+        if($specialist->update($data)){
+            return  redirect()->route('admin.specialist.index');
+        }
+        return back();
     }
 
     /**
@@ -78,8 +89,9 @@ class SpecialistController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Specialist $specialist)
     {
-        //
+        $specialist->delete();
+        return  redirect()->route('admin.specialist.index');
     }
 }

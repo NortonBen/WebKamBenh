@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\PatientRegister;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -12,31 +13,12 @@ class PatientRegisterController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($part = 30)
     {
-        //
+        $registers =  PatientRegister::paginate($part);
+        return view('admin.register.index',compact('registers'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
 
     /**
      * Display the specified resource.
@@ -44,32 +26,9 @@ class PatientRegisterController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(PatientRegister $register)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
+        return view('admin.register.show',compact('register'));
     }
 
     /**
@@ -78,8 +37,9 @@ class PatientRegisterController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(PatientRegister $register)
     {
-        //
+        $register->delete();
+        return redirect()->route('admin.register.index');
     }
 }
