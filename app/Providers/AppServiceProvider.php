@@ -15,6 +15,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Schema::defaultStringLength(191);
+        Form::component('bsText', 'components.form.text', ['name', 'value', 'attributes']);
     }
 
     /**
