@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Patient extends Model
 {
-    protected $fillable = ['history'];
+    protected $fillable = ['history','id'];
 
     public function PatientRecord(){
         return $this->hasMany(PatientRecord::class);

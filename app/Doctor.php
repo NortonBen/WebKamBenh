@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Doctor extends Model
 {
 
-    protected $fillable = ['specialist_id','detail'];
+    protected $fillable = ['specialist_id','detail','id'];
 
     public function PatientRecord(){
         return $this->hasMany(PatientRecord::class);

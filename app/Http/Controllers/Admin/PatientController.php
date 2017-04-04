@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Requests\Admin\PatientRequest;
 use App\Patient;
+use App\PatientRecord;
+use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -24,9 +27,9 @@ class PatientController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(User $user)
     {
-        //
+        return view('admin.patient.create',compact('user'));
     }
 
     /**
@@ -35,9 +38,14 @@ class PatientController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PatientRequest $request,User $user)
     {
-        //
+        $data = $request->only(['hitory']);
+        $data['id'] = $user->id;
+        if(Patient::create($data)){
+            return redirect()->route('admin.patient.index');
+        }
+        return redirect()->back();
     }
 
     /**
@@ -46,9 +54,10 @@ class PatientController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Patient $patient)
     {
-        //
+        $records = $patient->PatientRecord();
+        return view('admin.patient.show',compact('patient','records'));
     }
 
     /**
@@ -57,9 +66,9 @@ class PatientController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Patient $patient)
     {
-        //
+        return view('admin.patient.edit',compact('patient'));
     }
 
     /**
@@ -69,9 +78,13 @@ class PatientController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(PatientRequest $request, Patient $patient)
     {
-        //
+        $data = $request->only(['history']);
+        if($patient->update($data)){
+            return redirect()->route('admin.patient.index');
+        }
+        return back();
     }
 
     /**
@@ -80,8 +93,9 @@ class PatientController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Patient $patient)
     {
-        //
+        $patient->delete();
+        return redirect()->route('admin.patient.index');
     }
 }

@@ -2,6 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Doctor;
+use App\Http\Requests\Admin\DoctorRequest;
+use App\Patient;
+use App\PatientRecord;
+use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -12,9 +17,10 @@ class DoctorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($part = 30)
     {
-        //
+        $doctor = Patient::paginate($part);
+        return view('admin.doctor.index',compact('doctor'));
     }
 
     /**
@@ -22,9 +28,9 @@ class DoctorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(User $user)
     {
-        //
+        return view('admin.doctor.create',compact('user'));
     }
 
     /**
@@ -33,9 +39,14 @@ class DoctorController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(DoctorRequest $request,User $user)
     {
-        //
+        $data = $request->only(['specialist_id','detail']);
+        $data['id'] = $user->id;
+        if(Doctor::create($data)){
+            return redirect()->route('admin.doctor.index');
+        }
+        return back();
     }
 
     /**
@@ -44,9 +55,10 @@ class DoctorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Doctor $doctor)
     {
-        //
+        $records = $doctor->PatientRecord();
+        return view('admin.doctor.show',compact('doctor','records'));
     }
 
     /**
@@ -55,9 +67,9 @@ class DoctorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Doctor $doctor)
     {
-        //
+        return view('admin.doctor.edit',compact('doctor'));
     }
 
     /**
@@ -67,9 +79,13 @@ class DoctorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(DoctorRequest $request, Doctor $doctor)
     {
-        //
+        $data = $request->only(['specialist_id','detail']);
+        if($doctor->update($data)){
+            return redirect()->route('admin.doctor.index');
+        }
+        return back();
     }
 
     /**
@@ -78,8 +94,8 @@ class DoctorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Doctor $doctor)
     {
-        //
+
     }
 }

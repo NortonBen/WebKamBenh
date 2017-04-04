@@ -18,3 +18,11 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index');
+
+Route::group(['namespace' => 'Admin', 'as' => 'admin.', 'prefix' => 'admin' ],function (){
+    Route::resource('/user','UserController');
+    Route::resource('/doctor','DoctorController',['only' => ['index','show','update','store','destroy']]);
+    Route::resource('/patient','PatientController',['only' => ['index','show','update','store','destroy']]);
+    Route::resource('/register','PatientRegisterController',['only' => ['index','show','destroy']]);
+    Route::resource('/records','PatientRecordController',['only' => ['index','show','destroy']]);
+});
