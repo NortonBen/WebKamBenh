@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Admin\UserRequest;
-use App\Role;
-use Illuminate\Foundation\Auth\User;
+use App\Doctor;
+use App\Http\Requests\Admin\PatientRecordRequest;
+use App\Patient;
+use App\PatientRegister;
+use App\Specialist;
+use App\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 
-
-class RegisterController extends Controller
+class PatientRegistersController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,7 +19,7 @@ class RegisterController extends Controller
      */
     public function index()
     {
-        //
+
     }
 
     /**
@@ -28,8 +29,10 @@ class RegisterController extends Controller
      */
     public function create()
     {
-        $roles = Role::all();
-        return view('site.user.register',compact('roles'));
+        $doctors = Doctor::all();
+
+        $patients = Patient::all();
+        return view('site.register.create',compact('doctors','patients'));
     }
 
     /**
@@ -38,17 +41,17 @@ class RegisterController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(UserRequest $request)
+    public function store(PatientRecordRequest $request )
     {
-        $data = $request->only(['first_name','last_name', 'email', 'password','birthday','sex','address','role_id','phone']);
-        $data['password'] = Hash::make($data['password']);
-        $user =new User($data);
-        if($user->save()){
-            return redirect('/');
+        $data = $request->only(['doctor_id', 'patient_id', 'start' , 'end', 'description']);
+        $user = new User();
+        $data['id'] = $user->id;
+        $register = new PatientRegister($data);
+        if ($register->save())
+        {
+            return redirect()->route('site.datlichkham.index');
         }
-        return redirect()->back();
-
-
+        return redirect()->action('PatientRegistersController@create');
     }
 
     /**

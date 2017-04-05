@@ -8,6 +8,7 @@ use App\Role;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -42,6 +43,7 @@ class UserController extends Controller
     public function store(UserRequest $request)
     {
         $data = $request->only(['first_name','last_name', 'email', 'password','birthday','sex','address','role_id','phone']);
+        $data['password'] = Hash::make($data['password']);
         if(User::create($data)){
             return redirect()->route('admin.user.index');
         }

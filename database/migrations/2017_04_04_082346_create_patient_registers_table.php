@@ -19,7 +19,7 @@ class CreatePatientRegistersTable extends Migration
             $table->unsignedInteger('patient_id');
             $table->dateTime("start");
             $table->dateTime("end");
-            $table->text("descriptiom");
+            $table->text("description");
             $table->timestamps();
             $table->foreign("doctor_id")->references('id')->on('doctors')
                 ->onDelete('cascade');

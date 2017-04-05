@@ -1,11 +1,14 @@
-@extends("layouts.admin")
+@extends('layouts.app')
+@section('title','Đăng ký')
 
-@section("content")
+@section('content')
     <div class="row">
-        <h2>Thêm Tài Khoản</h2>
-        <div class="col-md-10 col-md-offset-1">
+
+
+        <div class="col-md-8 col-md-offset-2">
+            <h2>Đăng ký</h2>
             @include('layouts.error')
-            {!! Form::open(['route' => 'admin.user.store' ]) !!}
+            {!! Form::open(['route' => 'site.register.store' ]) !!}
             {{ Form::fText('first_name','Họ Tên Đệm') }}
             {{ Form::fText('last_name','Tên') }}
             {{ Form::fEmail('email','Email') }}
@@ -16,10 +19,8 @@
             {{ Form::fText('address','Địa Chỉ') }}
             {{ Form::fSex('sex') }}
             {{ Form::fSelect('role_id','Phân Quyền',$roles,['val' => 'id', 'name' => 'name']) }}
-            {{ Form::submit('Thêm người dùng',['class' => 'form-control btn btn-primary']) }}
+            {{ Form::submit('Đăng ký',['class' => 'btn btn-primary']) }}
             {!! Form::close() !!}
-
         </div>
     </div>
-
-@endsection
+    @endsection

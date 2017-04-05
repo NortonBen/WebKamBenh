@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class PatientRegister extends Model
 {
 
-    protected $fillable  =  ['patient_id','doctor_id','start','end'];
+    protected $fillable  =  ['patient_id','doctor_id','start','end' , 'description'];
 
     public  function Doctor(){
         return $this->belongsTo(Doctor::class);

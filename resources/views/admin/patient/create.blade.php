@@ -10,7 +10,7 @@
             </ul>
             {!! Form::open(['route' => ['admin.patient.store',$user->id]]) !!}
             {{ Form::fHTML('history','Tiểu Bệnh Án') }}
-            {{ Form::submit('Thêm Thêm Bênh Nhân',['class' => 'form-control']) }}
+            {{ Form::submit('Thêm Bênh Nhân',['class' => 'form-control']) }}
             {!! Form::close() !!}
 
         </div>

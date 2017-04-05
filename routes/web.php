@@ -14,6 +14,8 @@
 
 Auth::routes();
 
+
+
 Route::get('/', 'HomeController@index')->name('home');
 
 Route::group(['namespace' => 'Admin', 'as' => 'admin.', 'prefix' => 'admin' ],function (){
@@ -28,4 +30,8 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.', 'prefix' => 'admin' ],fu
     Route::post('/doctor/store/{user}','DoctorController@store')->name('doctor.store');
     Route::get('/patient/create/{user}','PatientController@create')->name('patient.create');
     Route::post('/patient/create/{user}','PatientController@store')->name('patient.store');
+});
+Route::group(['as' => 'site.' ,'prefix' => 'site'],function (){
+   Route::resource('/register' , 'RegisterController',['only'=>['create' , 'store']] );
+   Route::resource('/datlichkham','PatientRegistersController',['only' => ['index' , 'create' , 'store']]);
 });

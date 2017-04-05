@@ -28,6 +28,7 @@ class PatientRegisterController extends Controller
      */
     public function show(PatientRegister $register)
     {
+
         return view('admin.register.show',compact('register'));
     }
 
