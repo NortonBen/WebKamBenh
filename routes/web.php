@@ -34,4 +34,6 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.', 'prefix' => 'admin' ],fu
 Route::group(['as' => 'site.' ,'prefix' => 'site'],function (){
    Route::resource('/register' , 'RegisterController',['only'=>['create' , 'store']] );
    Route::resource('/datlichkham','PatientRegistersController',['only' => ['index' , 'create' , 'store']]);
+   Route::resource('/doctor' ,'DoctorsController',['only' => ['index','show']]);
+   Route::resource('patientrecord','PatientRecordsController',['only' => ['index','create','store'] ]);
 });

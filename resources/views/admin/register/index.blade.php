@@ -25,8 +25,8 @@
                         <td>{{ $record->id }}</td>
                         <td>{{ $patient->User->full_name }}</td>
                         <td>{{ $doctor->User->full_name }}</td>
-                        <td>{{ $record->start }}</td>
-                        <td>{{ $record->end }}</td>
+                        <td>{{ $register->start }}</td>
+                        <td>{{ $register->end }}</td>
                         <td>
                             <a href="{{ route('admin.doctor.show',$doctor->id) }}">Show</a> |
                             <a href="#"  onclick="$('#delete-{{ $doctor->id }}').submit()"  >Delete</a>

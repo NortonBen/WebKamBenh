@@ -3,14 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Doctor;
-use App\Http\Requests\Admin\PatientRecordRequest;
-use App\Patient;
-use App\PatientRegister;
-use App\Specialist;
-use App\User;
 use Illuminate\Http\Request;
+use PhpParser\Comment\Doc;
 
-class PatientRegistersController extends Controller
+class DoctorsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,7 +15,10 @@ class PatientRegistersController extends Controller
      */
     public function index()
     {
+        $doctors = Doctor::all();
 
+
+        return view('site.doctors.index',compact('doctors'));
     }
 
     /**
@@ -29,10 +28,7 @@ class PatientRegistersController extends Controller
      */
     public function create()
     {
-        $registers = PatientRegister::all();
-        $doctor = Doctor::all();
-        $patient = Patient::all();
-        return view('site.register.create',compact('doctor' , 'patient','registers'));
+        //
     }
 
     /**
@@ -41,17 +37,9 @@ class PatientRegistersController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(PatientRecordRequest $request )
+    public function store(Request $request)
     {
-        $data = $request->only(['doctor_id', 'patient_id', 'start' , 'end', 'description']);
-        $user = new User();
-        $data['id'] = $user->id;
-        $register = new PatientRegister($data);
-        if ($register->save())
-        {
-            return redirect()->route('site.datlichkham.index');
-        }
-        return redirect()->action('PatientRegistersController@create');
+        //
     }
 
     /**
@@ -62,7 +50,10 @@ class PatientRegistersController extends Controller
      */
     public function show($id)
     {
-        //
+
+        $doctors = Doctor::find(['id' => $id])->first();
+
+        return view('site.doctors.show',compact('doctors'));
     }
 
     /**

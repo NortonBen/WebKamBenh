@@ -26,8 +26,8 @@ class PatientRecordRequest extends FormRequest
         return [
             'patient_id' => 'required',
             'doctor_id' => 'required',
-            'start' => 'required',
-            'end' => 'required'
+            'name' => 'required',
+            'detail' => 'required'
         ];
     }
 }

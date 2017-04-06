@@ -5,12 +5,11 @@ namespace App\Http\Controllers;
 use App\Doctor;
 use App\Http\Requests\Admin\PatientRecordRequest;
 use App\Patient;
-use App\PatientRegister;
-use App\Specialist;
-use App\User;
+use App\PatientRecord;
 use Illuminate\Http\Request;
+use PhpParser\Comment\Doc;
 
-class PatientRegistersController extends Controller
+class PatientRecordsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,7 +18,8 @@ class PatientRegistersController extends Controller
      */
     public function index()
     {
-
+        $records = PatientRecord::all();
+        return view('site.patientrecord.index',compact('records'));
     }
 
     /**
@@ -29,10 +29,10 @@ class PatientRegistersController extends Controller
      */
     public function create()
     {
-        $registers = PatientRegister::all();
         $doctor = Doctor::all();
         $patient = Patient::all();
-        return view('site.register.create',compact('doctor' , 'patient','registers'));
+
+        return view('site.patientrecord.create',compact('doctor' ,'patient'));
     }
 
     /**
@@ -41,17 +41,15 @@ class PatientRegistersController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(PatientRecordRequest $request )
+    public function store(PatientRecordRequest $request)
     {
-        $data = $request->only(['doctor_id', 'patient_id', 'start' , 'end', 'description']);
-        $user = new User();
-        $data['id'] = $user->id;
-        $register = new PatientRegister($data);
-        if ($register->save())
+        $data = $request->only(['doctor_id' , 'patient_id','name' , 'detail']);
+        if (PatientRecord::create($data))
         {
-            return redirect()->route('site.datlichkham.index');
+            return redirect()->route('site.patientrecord.index');
         }
-        return redirect()->action('PatientRegistersController@create');
+        return redirect()->route('site.patientrecord.create');
+
     }
 
     /**
