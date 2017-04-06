@@ -9,6 +9,8 @@ use App\PatientRegister;
 use App\Specialist;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class PatientRegistersController extends Controller
 {
@@ -19,7 +21,8 @@ class PatientRegistersController extends Controller
      */
     public function index()
     {
-
+        $registers = PatientRegister::all();
+        return view('site.register.index',compact('registers'));
     }
 
     /**
@@ -27,13 +30,25 @@ class PatientRegistersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Specialist $specialist)
     {
-        $registers = PatientRegister::all();
-        $doctor = Doctor::all();
-        $patient = Patient::all();
-        return view('site.register.create',compact('doctor' , 'patient','registers'));
+
+        $doctors = DB::table('users')
+            ->join('doctors',function ($join)use ($specialist){
+                $join->on('users.id' ,'=','doctors.id')->where('doctors.specialist_id' , '=', $specialist->id);
+            })->get();
+        $doctors = $doctors->toArray();
+
+        $doctor = array_map([$this,'getDoctor'],$doctors);
+
+        return view('site.register.create',compact('doctors'));
     }
+
+    private function getDoctor($item){
+        $item->full_name = $item->first_name.' '.$item->last_name;
+        return (object)$item;
+    }
+
 
     /**
      * Store a newly created resource in storage.
@@ -41,15 +56,16 @@ class PatientRegistersController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(PatientRecordRequest $request )
+    public function store(Request $request )
     {
-        $data = $request->only(['doctor_id', 'patient_id', 'start' , 'end', 'description']);
-        $user = new User();
-        $data['id'] = $user->id;
+        $data = $request->only(['doctor_id','patient_id', 'start' , 'end', 'description']);
+
+        $data['patient_id'] = Auth::id();
+
         $register = new PatientRegister($data);
         if ($register->save())
         {
-            return redirect()->route('site.datlichkham.index');
+            return redirect()->route('datlichkham.index');
         }
         return redirect()->action('PatientRegistersController@create');
     }

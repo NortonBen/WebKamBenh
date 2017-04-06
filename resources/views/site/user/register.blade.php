@@ -18,7 +18,6 @@
             {{ Form::fText('phone','Số Diện Thoại') }}
             {{ Form::fText('address','Địa Chỉ') }}
             {{ Form::fSex('sex') }}
-            {{ Form::fSelect('role_id','Phân Quyền',$roles,['val' => 'id', 'name' => 'name']) }}
             {{ Form::submit('Đăng ký',['class' => 'btn btn-primary']) }}
             {!! Form::close() !!}
         </div>

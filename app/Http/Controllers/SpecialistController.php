@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Specialist;
 use Illuminate\Http\Request;
 
 class SpecialistController extends Controller
@@ -13,7 +14,8 @@ class SpecialistController extends Controller
      */
     public function index()
     {
-        //
+        $specialist = Specialist::all();
+        return view('site.specialist.index',compact('specialist'));
     }
 
     /**
@@ -45,7 +47,7 @@ class SpecialistController extends Controller
      */
     public function show($id)
     {
-        //
+
     }
 
     /**

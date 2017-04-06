@@ -33,7 +33,25 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.', 'prefix' => 'admin' ],fu
 });
 Route::group(['as' => 'site.' ,'prefix' => 'site'],function (){
    Route::resource('/register' , 'RegisterController',['only'=>['create' , 'store']] );
-   Route::resource('/datlichkham','PatientRegistersController',['only' => ['index' , 'create' , 'store']]);
+//   Route::resource('/datlichkham','PatientRegistersController',['only' => ['index' , 'create' , 'store']]);
    Route::resource('/doctor' ,'DoctorsController',['only' => ['index','show']]);
    Route::resource('patientrecord','PatientRecordsController',['only' => ['index','create','store'] ]);
 });
+
+Route::get('/datlichkham/{specialist}',[
+    'as' => 'datlichkham',
+    'middleware' => 'auth',
+    'uses' => 'PatientRegistersController@create'
+]);
+Route::post('/datlichkham',[
+    'as' => 'datlichkham.store',
+    'middleware' => 'auth',
+    'uses' => 'PatientRegistersController@store'
+]);
+Route::get('/datlichkham/index',[
+    'as' => 'datlichkham.index',
+    'uses' =>'PatientRegistersController@index'
+]);
+Route::get('/chonchuyenmon',[
+    'as' => 'chonchuyenmon',
+   'uses' =>     'SpecialistController@index']);

@@ -22,15 +22,15 @@
                     $doctor = $register->Doctor;
                     ?>
                     <tr>
-                        <td>{{ $record->id }}</td>
-                        <td>{{ $patient->User->full_name }}</td>
-                        <td>{{ $doctor->User->full_name }}</td>
+                        <td>{{ $register->id }}</td>
+                        <td>{{ $patient->User->full_name() }}</td>
+                        <td>{{ $doctor->User->full_name() }}</td>
                         <td>{{ $register->start }}</td>
                         <td>{{ $register->end }}</td>
                         <td>
-                            <a href="{{ route('admin.doctor.show',$doctor->id) }}">Show</a> |
-                            <a href="#"  onclick="$('#delete-{{ $doctor->id }}').submit()"  >Delete</a>
-                            <form  method="post" id="delete-{{ $doctor->id }}" action="{{ route('admin.doctor.destroy',$doctor->id) }}">
+                            <a href="{{ route('admin.register.show',$register->id) }}">Show</a> |
+                            <a href="#"  onclick="$('#delete-{{ $register->id }}').submit()"  >Delete</a>
+                            <form  method="post" id="delete-{{ $register->id }}" action="{{ route('admin.register.destroy',$register->id) }}">
                                 {{ csrf_field() }}
                                 {{ method_field('DELETE') }}
                             </form>

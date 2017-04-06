@@ -23,14 +23,14 @@
                     ?>
                     <tr>
                         <td>{{ $record->id }}</td>
-                        <td>{{ $patient->User->full_name }}</td>
-                        <td>{{ $doctor->User->full_name }}</td>
+                        <td>{{ $patient->User->full_name() }}</td>
+                        <td>{{ $doctor->User->full_name() }}</td>
                         <td>{{ $record->name }}</td>
                         <td>{{ $record->created_at }}</td>
                         <td>
-                            <a href="{{ route('admin.doctor.show',$doctor->id) }}">Show</a> |
-                            <a href="#"  onclick="$('#delete-{{ $doctor->id }}').submit()"  >Delete</a>
-                            <form  method="post" id="delete-{{ $doctor->id }}" action="{{ route('admin.doctor.destroy',$doctor->id) }}">
+                            <a href="{{ route('admin.records.show',$record->id) }}">Show</a> |
+                            <a href="#"  onclick="$('#delete-{{ $record->id }}').submit()"  >Delete</a>
+                            <form  method="post" id="delete-{{ $record->id }}" action="{{ route('admin.records.destroy',$record->id) }}">
                                 {{ csrf_field() }}
                                 {{ method_field('DELETE') }}
                             </form>

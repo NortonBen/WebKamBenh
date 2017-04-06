@@ -6,7 +6,10 @@ use App\Doctor;
 use App\Http\Requests\Admin\PatientRecordRequest;
 use App\Patient;
 use App\PatientRecord;
+use App\Specialist;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use PhpParser\Comment\Doc;
 
 class PatientRecordsController extends Controller
@@ -27,12 +30,16 @@ class PatientRecordsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create( Specialist $specialist)
     {
-        $doctor = Doctor::all();
-        $patient = Patient::all();
+       $doctors = DB::table('users')
+            ->join('doctors',function ($join)use ($specialist){
+                $join->on('users.id' ,'=','doctors.id')->where('doctors.specialist_id' , '=', $specialist->id);
+            })->get();
 
-        return view('site.patientrecord.create',compact('doctor' ,'patient'));
+
+
+        return view('site.patientrecord.create',compact('doctors'));
     }
 
     /**
@@ -43,7 +50,8 @@ class PatientRecordsController extends Controller
      */
     public function store(PatientRecordRequest $request)
     {
-        $data = $request->only(['doctor_id' , 'patient_id','name' , 'detail']);
+        $data = $request->only(['doctor_id' ,'name' , 'detail']);
+        $data['patient_id'] = Auth::id();
         if (PatientRecord::create($data))
         {
             return redirect()->route('site.patientrecord.index');
