@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class PatientRegister extends Model
 {
+    protected $table = 'patient_registers';
 
     protected $fillable  =  ['patient_id','doctor_id','start','end' , 'description'];
 

@@ -27,9 +27,10 @@
                             $patient = $register->Patient;
                             ?>
                     <tr>
+
                         <td>{{$register->id}}</td>
-                        <td>{{$doctor->User->full_name}}</td>
-                        <td>{{$patient->User->full_name}}</td>
+                        <td>{{$doctor->User->first_name }} {{$doctor->User->last_name}}</td>
+                        <td>{{$patient->User->first_name}} {{$patient->User->last_name}}</td>
                         <td>{{$register->start}}</td>
                         <td>{{$register->end}}</td>
                         <td>{{$register->description}}</td>

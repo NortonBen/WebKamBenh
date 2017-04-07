@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Doctor;
-use App\Http\Requests\Admin\PatientRecordRequest;
-use App\Patient;
+
+
+
 use App\PatientRegister;
 use App\Specialist;
-use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -21,7 +20,8 @@ class PatientRegistersController extends Controller
      */
     public function index()
     {
-        $registers = PatientRegister::all();
+
+        $registers =  PatientRegister::all();
         return view('site.register.index',compact('registers'));
     }
 
@@ -48,7 +48,11 @@ class PatientRegistersController extends Controller
         $item->full_name = $item->first_name.' '.$item->last_name;
         return (object)$item;
     }
-
+    public function showlist()
+    {
+        $registers = PatientRegister::all();
+        return view('site.register.index' , compact('registers'));
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -65,9 +69,9 @@ class PatientRegistersController extends Controller
         $register = new PatientRegister($data);
         if ($register->save())
         {
-            return redirect()->route('datlichkham.index');
+            return redirect()->route('showlist.lichkham');
         }
-        return redirect()->action('PatientRegistersController@create');
+        return redirect()->back();
     }
 
     /**

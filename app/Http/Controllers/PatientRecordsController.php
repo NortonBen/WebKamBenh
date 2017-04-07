@@ -1,16 +1,14 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use App\Doctor;
 use App\Http\Requests\Admin\PatientRecordRequest;
-use App\Patient;
+
 use App\PatientRecord;
 use App\Specialist;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use PhpParser\Comment\Doc;
+
 
 class PatientRecordsController extends Controller
 {
