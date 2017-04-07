@@ -69,7 +69,7 @@ class PatientRegistersController extends Controller
         $register = new PatientRegister($data);
         if ($register->save())
         {
-            return redirect()->route('showlist.lichkham');
+            return redirect()->route('datlichkham.index');
         }
         return redirect()->back();
     }

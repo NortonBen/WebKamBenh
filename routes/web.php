@@ -38,6 +38,7 @@ Route::group(['as' => 'site.' ,'prefix' => 'site'],function (){
    Route::resource('/patientrecord','PatientRecordsController',['only' => ['index','create','store'] ]);
 });
 
+Route::resource('/datlichkham','PatientRegistersController');
 Route::get('/datlichkham/{specialist}',[
     'as' => 'datlichkham',
     'middleware' => 'auth',
@@ -48,10 +49,10 @@ Route::post('/datlichkham',[
     'middleware' => 'auth',
     'uses' => 'PatientRegistersController@store'
 ]);
-Route::get('/datlichkham/index',[
-    'as' => 'datlichkham.index',
-    'uses' =>'PatientRegistersController@index'
-]);
+//Route::get('/datlichkham/index',[
+//    'as' => 'datlichkham.index',
+//    'uses' =>'PatientRegistersController@index'
+//]);
 Route::get('/showlist',[
     'as' => 'showlist.lichkham',
     'uses' => 'PatientRegistersController@showlist'
