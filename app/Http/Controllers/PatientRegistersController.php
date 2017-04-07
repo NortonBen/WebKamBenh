@@ -48,11 +48,6 @@ class PatientRegistersController extends Controller
         $item->full_name = $item->first_name.' '.$item->last_name;
         return (object)$item;
     }
-    public function showlist()
-    {
-        $registers = PatientRegister::all();
-        return view('site.register.index' , compact('registers'));
-    }
 
     /**
      * Store a newly created resource in storage.
